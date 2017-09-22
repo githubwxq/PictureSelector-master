@@ -13,7 +13,16 @@
   limitations under the License.
   -->
 <resources>
-
+    <attr name="iconSize" format="dimension"/>
+    <attr name="iconMargin" format="dimension"/>
+    <attr name="iconSrc" format="reference"/>
+    <attr name="duration_max" format="integer"/>
+    <declare-styleable name="JCameraView">
+        <attr name="iconSize"/>
+        <attr name="iconMargin"/>
+        <attr name="iconSrc"/>
+        <attr name="duration_max"/>
+    </declare-styleable>
     <attr name="picture.title.textColor" format="reference|color" />
     <attr name="picture.right.textColor" format="reference|color" />
     <attr name="picture.leftBack.icon" format="reference" />

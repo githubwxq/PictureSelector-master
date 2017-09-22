@@ -19,7 +19,7 @@ public class LocalMediaFolder implements Parcelable {
     private String firstImagePath;
     private int imageNum;
     private int checkedNum;
-    private boolean isChecked;
+    private boolean isChecked;   //是否选中改文件夹
     private List<LocalMedia> images = new ArrayList<LocalMedia>();
 
 

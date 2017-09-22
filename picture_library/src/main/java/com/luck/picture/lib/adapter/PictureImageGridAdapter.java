@@ -48,8 +48,8 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
     private boolean showCamera = true;
     private OnPhotoSelectChangedListener imageSelectChangedListener;
     private int maxSelectNum;
-    private List<LocalMedia> images = new ArrayList<LocalMedia>();
-    private List<LocalMedia> selectImages = new ArrayList<LocalMedia>();
+    private List<LocalMedia> images = new ArrayList<LocalMedia>();        //展现的数据
+    private List<LocalMedia> selectImages = new ArrayList<LocalMedia>();  //最新选中的集合
     private boolean enablePreview;
     private int selectMode = PictureConfig.MULTIPLE;
     private boolean enablePreviewVideo = false;
@@ -152,16 +152,16 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
         } else {
             final ViewHolder contentHolder = (ViewHolder) holder;
-            final LocalMedia image = images.get(showCamera ? position - 1 : position);
+            final LocalMedia image = images.get(showCamera ? position - 1 : position);     //显示第一个那么数据 与位子相差一 ！！！
             image.position = contentHolder.getAdapterPosition();
             final String path = image.getPath();
             final String pictureType = image.getPictureType();
             contentHolder.ll_check.setVisibility(selectMode ==
-                    PictureConfig.SINGLE ? View.GONE : View.VISIBLE);
+                    PictureConfig.SINGLE ? View.GONE : View.VISIBLE); //单选或者多选
             if (is_checked_num) {
                 notifyCheckChanged(contentHolder, image);
             }
-            selectImage(contentHolder, isSelected(image), false);
+            selectImage(contentHolder, isSelected(image), false);  //设置好默认
 
             final int picture = PictureMimeType.isPictureType(pictureType);
             boolean gif = PictureMimeType.isGif(pictureType);
@@ -196,7 +196,6 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
                 options.placeholder(R.drawable.image_placeholder);
                 Glide.with(context)
                         .asBitmap()
-
                         .load(path)
                         .apply(options)
                         .into(contentHolder.iv_picture);
@@ -222,7 +221,7 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
                     if (picture == PictureConfig.TYPE_IMAGE && (enablePreview
                             || selectMode == PictureConfig.SINGLE)) {
                         int index = showCamera ? position - 1 : position;
-                        imageSelectChangedListener.onPictureClick(image, index);
+                        imageSelectChangedListener.onPictureClick(image, index); //根据index 位子Activity中获取
                     } else if (picture == PictureConfig.TYPE_VIDEO && (enablePreviewVideo
                             || selectMode == PictureConfig.SINGLE)) {
                         int index = showCamera ? position - 1 : position;
@@ -279,7 +278,7 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public boolean isSelected(LocalMedia image) {
+    public boolean isSelected(LocalMedia image) {  //判断当前页面是不是被选中过的
         for (LocalMedia media : selectImages) {
             if (media.getPath().equals(image.getPath())) {
                 return true;
@@ -330,7 +329,7 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         if (isChecked) {
             for (LocalMedia media : selectImages) {
-                if (media.getPath().equals(image.getPath())) {
+                if (media.getPath().equals(image.getPath())) {    //
                     selectImages.remove(media);
                     DebugUtil.i("selectImages remove::", config.selectionMedias.size() + "");
                     subSelectPosition();
@@ -345,9 +344,10 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
             VoiceUtils.playVoice(context, enableVoice);
             zoom(contentHolder.iv_picture);
         }
+
         //通知点击项发生了改变
         notifyItemChanged(contentHolder.getAdapterPosition());
-        selectImage(contentHolder, !isChecked, true);
+        selectImage(contentHolder, !isChecked, true);   //点击开始动画
         if (imageSelectChangedListener != null) {
             imageSelectChangedListener.onChange(selectImages);
         }

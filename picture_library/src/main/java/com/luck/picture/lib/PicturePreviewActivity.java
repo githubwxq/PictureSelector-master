@@ -345,7 +345,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements View.
     }
 
     /**
-     * 更新图片列表选中效果
+     * 更新图片列表选中效果   、、类似eventbus 发送数据接收更新
      *
      * @param isRefresh
      */

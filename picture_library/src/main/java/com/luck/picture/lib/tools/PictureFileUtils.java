@@ -42,7 +42,7 @@ import java.util.Locale;
  * project：PictureSelector
  * package：com.luck.picture.lib.tools
  * email：893855882@qq.com
- * data：2017/5/30
+ * data：2017/5/30  工具类 参数传
  */
 
 public class PictureFileUtils {

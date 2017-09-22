@@ -230,7 +230,7 @@ public final class PictureMimeType {
     /**
      * get Local video duration
      *
-     * @return
+     * @return  获取视频时长
      */
     public static int getLocalVideoDuration(String videoPath) {
         int duration;

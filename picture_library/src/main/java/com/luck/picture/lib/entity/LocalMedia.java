@@ -14,9 +14,9 @@ import android.text.TextUtils;
  */
 
 public class LocalMedia implements Parcelable {
-    private String path;
-    private String compressPath;
-    private String cutPath;
+    private String path;        //原路径
+    private String compressPath;  //压缩路径
+    private String cutPath;   //裁剪路径
     private long duration;
     private boolean isChecked;
     private boolean isCut;

@@ -35,7 +35,7 @@ import java.util.List;
  * project：PictureSelector
  * package：com.luck.picture.lib.widget
  * email：893855882@qq.com
- * data：2017/5/25
+ * data：2017/5/25   文件夹popupwindow 提供初始化数据的方法以及回调接口
  */
 
 public class FolderPopWindow extends PopupWindow implements View.OnClickListener {

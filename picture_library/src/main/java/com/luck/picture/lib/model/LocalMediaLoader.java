@@ -161,6 +161,8 @@ public class LocalMediaLoader {
 
     private static final String ORDER_BY = MediaStore.Files.FileColumns._ID + " DESC";
 
+
+    //   构造方法初始化变量
     public LocalMediaLoader(FragmentActivity activity, int type, boolean isGif, long videoMaxS, long videoMinS) {
         this.activity = activity;
         this.type = type;
@@ -174,7 +176,7 @@ public class LocalMediaLoader {
         activity.getSupportLoaderManager().initLoader(type, null,
                 new LoaderManager.LoaderCallbacks<Cursor>() {
                     @Override
-                    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                    public Loader<Cursor> onCreateLoader(int id, Bundle args) {  //type  获取的类型
                         CursorLoader cursorLoader = null;
                         switch (id) {
                             case PictureConfig.TYPE_ALL:
@@ -199,7 +201,7 @@ public class LocalMediaLoader {
 
                                                 + " AND " + MediaStore.MediaColumns.SIZE + ">0"
                                                 + " AND " + MediaStore.MediaColumns.WIDTH + ">0";
-
+                                //根据变量选择不同的条件获取对应的资源
                                 cursorLoader = new CursorLoader(
                                         activity, QUERY_URI,
                                         PROJECTION, isGif ? selection_all : selection_not_gif,
@@ -227,7 +229,7 @@ public class LocalMediaLoader {
                     }
 
                     @Override
-                    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {  // 加载器和数据
                         try {
                             List<LocalMediaFolder> imageFolders = new ArrayList<>();
                             LocalMediaFolder allImageFolder = new LocalMediaFolder();
@@ -262,14 +264,14 @@ public class LocalMediaLoader {
 
                                     if (latelyImages.size() > 0) {
                                         sortFolder(imageFolders);
-                                        imageFolders.add(0, allImageFolder);
+                                        imageFolders.add(0, allImageFolder); // 第一个文件夹为全部文件夹其他的获取图片的父
                                         allImageFolder.setFirstImagePath
                                                 (latelyImages.get(0).getPath());
                                         String title = type == PictureMimeType.ofAudio() ?
                                                 activity.getString(R.string.picture_all_audio)
                                                 : activity.getString(R.string.picture_camera_roll);
                                         allImageFolder.setName(title);
-                                        allImageFolder.setImages(latelyImages);
+                                        allImageFolder.setImages(latelyImages); // 全部胶卷的文件夹天加了全部的文件
                                     }
                                     imageLoadListener.loadComplete(imageFolders);
                                 } else {

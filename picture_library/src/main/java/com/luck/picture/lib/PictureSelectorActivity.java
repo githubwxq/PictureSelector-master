@@ -249,9 +249,11 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
             preview_textColor = AttrsUtils.getTypeValueColor(this, R.attr.picture_preview_textColor);
             complete_textColor = AttrsUtils.getTypeValueColor(this, R.attr.picture_complete_textColor);
         }
+
+        //初始化配置
         adapter = new PictureImageGridAdapter(mContext, config);
         adapter.setOnPhotoSelectChangedListener(PictureSelectorActivity.this);
-        adapter.bindSelectImages(selectionMedias);
+        adapter.bindSelectImages(selectionMedias); // 、、绑定锁定的数据
         picture_recycler.setAdapter(adapter);
         String titleText = picture_title.getText().toString().trim();
         if (isCamera) {
@@ -292,7 +294,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                 DebugUtil.i("loadComplete:" + folders.size());
                 if (folders.size() > 0) {
                     foldersList = folders;
-                    LocalMediaFolder folder = folders.get(0);
+                    LocalMediaFolder folder = folders.get(0);  // 所有文件默认选中
                     folder.setChecked(true);
                     List<LocalMedia> localImg = folder.getImages();
                     // 这里解决有些机型会出现拍照完，相册列表不及时刷新问题
@@ -307,7 +309,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     if (images == null) {
                         images = new ArrayList<>();
                     }
-                    adapter.bindImagesData(images);
+                    adapter.bindImagesData(images);  //更新所有的数据
                     tv_empty.setVisibility(images.size() > 0
                             ? View.INVISIBLE : View.VISIBLE);
                 }
@@ -359,7 +361,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
             File cameraFile = PictureFileUtils.createCameraFile(this,
                     mimeType == PictureConfig.TYPE_ALL ? PictureConfig.TYPE_IMAGE : mimeType,
                     outputCameraPath);
-            cameraPath = cameraFile.getAbsolutePath();
+            cameraPath = cameraFile.getAbsolutePath();// 最后存放的地址
             Uri imageUri = parUri(cameraFile);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(cameraIntent, PictureConfig.REQUEST_CAMERA);
@@ -763,7 +765,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
 
     @Override
     public void onPictureClick(LocalMedia media, int position) {
-        List<LocalMedia> images = adapter.getImages();
+        List<LocalMedia> images = adapter.getImages();  //获取所有数据以及当前点击项目
         startPreview(images, position);
     }
 
@@ -798,7 +800,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                         handlerResult(result);
                     }
                 } else {
-                    List<LocalMedia> selectedImages = adapter.getSelectedImages();
+                    List<LocalMedia> selectedImages = adapter.getSelectedImages();  // 选中的集合
                     ImagesObservable.getInstance().saveLocalMedia(previewImages);
                     bundle.putSerializable(PictureConfig.EXTRA_SELECT_LIST, (Serializable) selectedImages);
                     bundle.putInt(PictureConfig.EXTRA_POSITION, position);
@@ -915,6 +917,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     isAudio(data);
                     // on take photo success
                     final File file = new File(cameraPath);
+                    // 添加到相册
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
                     String toType = PictureMimeType.fileToType(file);
                     DebugUtil.i(TAG, "camera result:" + toType);
@@ -936,7 +939,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                         pictureType = eqVideo ? PictureMimeType.createVideoType(cameraPath)
                                 : PictureMimeType.createImageType(cameraPath);
                     }
-                    media.setPictureType(pictureType);
+                    media.setPictureType(pictureType);  //图片的类型是gif还是普通的图片
                     media.setDuration(duration);
                     media.setMimeType(mimeType);
 

@@ -1,5 +1,4 @@
 package com.luck.picture.lib;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
-
 import com.luck.picture.lib.compress.CompressConfig;
 import com.luck.picture.lib.compress.CompressImageOptions;
 import com.luck.picture.lib.compress.CompressInterface;
@@ -31,11 +29,12 @@ import com.luck.picture.lib.tools.DoubleUtils;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropMulti;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//选择器基类
 public class PictureBaseActivity extends FragmentActivity {
     protected Context mContext;
     protected PictureSelectionConfig config;
