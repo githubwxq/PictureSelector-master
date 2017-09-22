@@ -327,14 +327,22 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
             switch (mimeType) {
                 case PictureConfig.TYPE_ALL:
                     // 如果是全部类型下，单独拍照就默认图片 (因为单独拍照不会new此PopupWindow对象)
-                    if (popupWindow != null) {
-                        if (popupWindow.isShowing()) {
-                            popupWindow.dismiss();
-                        }
-                        popupWindow.showAsDropDown(rl_picture_title);
-                    } else {
-                        startOpenCamera();
-                    }
+//                    if (popupWindow != null) {
+//                        if (popupWindow.isShowing()) {
+//                            popupWindow.dismiss();
+//                        }
+//                        popupWindow.showAsDropDown(rl_picture_title);
+//                    } else {
+//                        startOpenCamera();  //调用系统的拍照
+//                    }
+//
+                    //前往自定义拍照和摄像的页面仿微信
+
+
+                    Intent intent=new Intent(PictureSelectorActivity.this,CameraActivity.class);
+
+                    startActivityForResult(intent, PictureConfig.REQUEST_CAMERA);
+
                     break;
                 case PictureConfig.TYPE_IMAGE:
                     // 拍照
