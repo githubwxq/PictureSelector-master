@@ -32,7 +32,7 @@ import java.util.List;
  * project：PictureSelector
  * package：com.luck.pictureselector.adapter
  * email：893855882@qq.com
- * data：16/7/27
+ * data：16/7/27   图片显示控件 需要封装
  */
 public class GridImageAdapter extends
         RecyclerView.Adapter<GridImageAdapter.ViewHolder> {

@@ -80,7 +80,7 @@ public class PictureBaseActivity extends FragmentActivity {
                 (this, R.attr.picture_statusFontColor);
         previewStatusFont = AttrsUtils.getTypeValueBoolean
                 (this, R.attr.picture_preview_statusFontColor);
-        mimeType = config.mimeType;
+        mimeType = config.mimeType;  //初始化
         selectionMedias = config.selectionMedias;
         if (selectionMedias == null) {
             selectionMedias = new ArrayList<>();
@@ -253,7 +253,7 @@ public class PictureBaseActivity extends FragmentActivity {
     /**
      * 去裁剪
      *
-     * @param originalPath
+     * @param originalPath  前往裁剪
      */
     protected void startCrop(String originalPath) {
         UCrop.Options options = new UCrop.Options();
@@ -400,7 +400,7 @@ public class PictureBaseActivity extends FragmentActivity {
                 && selectionMedias != null) {
             images.addAll(selectionMedias);
         }
-        Intent intent = PictureSelector.putIntentResult(images);
+        Intent intent = PictureSelector.putIntentResult(images);  //最后退出当前页面的时所有图片集合数据放在集合里面共外部使用
         setResult(RESULT_OK, intent);
         closeActivity();
     }

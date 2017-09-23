@@ -37,7 +37,8 @@ public class FileUtil {
         DST_FOLDER_NAME = dir;
         String path = initPath();
         long dataTake = System.currentTimeMillis();
-        String jpegName = path + File.separator + "picture_" + dataTake + ".jpg";
+//        String jpegName = path + File.separator + "picture_" + dataTake + ".jpg";
+        String jpegName = path + File.separator + "picture_" + dataTake + ".JPEG";
         try {
             FileOutputStream fout = new FileOutputStream(jpegName);
             BufferedOutputStream bos = new BufferedOutputStream(fout);

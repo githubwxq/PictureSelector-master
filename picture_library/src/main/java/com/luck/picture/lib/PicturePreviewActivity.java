@@ -51,7 +51,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * project：PictureSelector
  * package：com.luck.picture.ui
  * email：893855882@qq.com
- * data：16/12/31
+ * data：16/12/31  预览页面 压缩结束后通知预览页面关闭
  */
 public class PicturePreviewActivity extends PictureBaseActivity implements View.OnClickListener, Animation.AnimationListener {
     private ImageView picture_left_back;

@@ -66,10 +66,14 @@ public final class PictureSelectionConfig implements Parcelable {
     public boolean scaleEnabled;
     public boolean previewEggs;
 
+    // 新加调用系统的拍照录视频还是调用微信的拍照和录视频
+    public boolean isSystemCamera;
+
+
     public List<LocalMedia> selectionMedias;
 
     private void reset() {
-        mimeType = PictureConfig.TYPE_IMAGE;
+        mimeType = PictureConfig.TYPE_ALL; //默认图片和视频都显示
         camera = false;
         themeStyleId = R.style.picture_default_style;
         selectionMode = PictureConfig.MULTIPLE;
@@ -109,6 +113,7 @@ public final class PictureSelectionConfig implements Parcelable {
         rotateEnabled = true;
         scaleEnabled = true;
         previewEggs = false;
+        isSystemCamera = false;
         zoomAnim = true;
         outputCameraPath = "";
         sizeMultiplier = 0.5f;

@@ -52,7 +52,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * project：PictureSelector
  * package：com.luck.picture.ui
  * email：邮箱->893855882@qq.com
- * data：17/01/18
+ * data：17/01/18  PictureExternalPreviewActivity 预览页面
  */
 public class PictureExternalPreviewActivity extends PictureBaseActivity implements View.OnClickListener {
     private ImageButton left_back;

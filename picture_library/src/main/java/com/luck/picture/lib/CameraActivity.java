@@ -20,6 +20,7 @@ import com.luck.picture.lib.cameralibrary.util.FileUtil;
 
 import java.io.File;
 
+
 public class CameraActivity extends AppCompatActivity {
     private JCameraView jCameraView;
 
@@ -33,7 +34,7 @@ public class CameraActivity extends AppCompatActivity {
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "PictureSelector/CameraImage");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
-        jCameraView.setTip("JCameraView Tip");
+        jCameraView.setTip("轻触拍照，长按摄像");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setErrorLisenter(new ErrorListener() {
             @Override
@@ -41,7 +42,8 @@ public class CameraActivity extends AppCompatActivity {
                 //错误监听
                 Log.i("CJT", "camera error");
                 Intent intent = new Intent();
-                setResult(103, intent);
+                intent.putExtra("path", ""); //路径为空说明出错了前面判断
+                setResult(RESULT_OK, intent);
                 finish();
             }
 
@@ -56,21 +58,21 @@ public class CameraActivity extends AppCompatActivity {
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
 //                Log.i("JCameraView", "bitmap = " + bitmap.getWidth());
-                String path = FileUtil.saveBitmap("JCamera", bitmap);
+                String path = FileUtil.saveBitmap("PictureSelector/CameraImage", bitmap);
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
-                setResult(101, intent);
+                setResult(PictureSelectorActivity.RESULT_OK, intent);
                 finish();
             }
 
             @Override
             public void recordSuccess(String url, Bitmap firstFrame) {
                 //获取视频路径
-                String path = FileUtil.saveBitmap("JCamera", firstFrame);
-                Log.i("CJT", "url = " + url + ", Bitmap = " + path);
+//                String path = FileUtil.saveBitmap("PictureSelector/CameraImage", firstFrame);
+//                Log.i("CJT", "url = " + url + ", Bitmap = " + path);  //video 的图片和地址
                 Intent intent = new Intent();
-                intent.putExtra("path", path);
-                setResult(101, intent);
+                intent.putExtra("path", url);
+                setResult(PictureSelectorActivity.RESULT_OK, intent);
                 finish();
             }
 
