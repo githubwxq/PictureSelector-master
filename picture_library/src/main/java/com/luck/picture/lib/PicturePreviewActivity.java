@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -45,6 +46,8 @@ import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static com.luck.picture.lib.cameralibrary.JCameraView.TYPE_VIDEO;
 
 /**
  * author：luck
@@ -141,10 +144,25 @@ public class PicturePreviewActivity extends PictureBaseActivity implements View.
                             showToast(getString(R.string.picture_rule));
                             return;
                         }
+
+//                        if (PictureMimeType.isPictureType(image.getPictureType())==TYPE_VIDEO) {
+//                            showToast("最多选择一个视频");
+//                            return;
+//                        }
+
                     }
                     // 刷新图片列表中图片状态
                     boolean isChecked;
                     if (!check.isSelected()) {
+                        if (!TextUtils.isEmpty(pictureType)) {
+                            boolean toEqual = PictureMimeType.
+                                    mimeToEqual(pictureType, image.getPictureType());
+
+                            if (PictureMimeType.isPictureType(image.getPictureType())==TYPE_VIDEO) {
+                                showToast("最多选择一个视频");
+                                return;
+                            }
+                        }
                         isChecked = true;
                         check.setSelected(true);
                         check.startAnimation(animation);
@@ -486,7 +504,6 @@ public class PicturePreviewActivity extends PictureBaseActivity implements View.
     }
 
     public void onResult(List<LocalMedia> images) {
-        RxBus.getDefault().post(new EventEntity(PictureConfig.PREVIEW_DATA_FLAG, images));
         // 如果开启了压缩，先不关闭此页面，PictureImageGridActivity压缩完在通知关闭
         if (!isCompress) {
             DebugUtil.i("**** not compress finish");
@@ -496,6 +513,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements View.
             DebugUtil.i("**** loading compress");
             showPleaseDialog();
         }
+        RxBus.getDefault().post(new EventEntity(PictureConfig.PREVIEW_DATA_FLAG, images));
     }
 
     @Override

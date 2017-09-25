@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.PictureSelectorView;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -50,12 +51,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
     private int themeId;
     private int chooseMode = PictureMimeType.ofAll();
-
+   PictureSelectorView pic_select_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         themeId = R.style.picture_default_style;
+
+        pic_select_view= (PictureSelectorView) findViewById(R.id.pic_select_view);
+        pic_select_view.initData(this,3,9);
+        pic_select_view.setMode(true);
         minus = (ImageView) findViewById(R.id.minus);
         plus = (ImageView) findViewById(R.id.plus);
         tv_select_num = (TextView) findViewById(R.id.tv_select_num);
@@ -244,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        pic_select_view.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
@@ -260,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d(TAG,"path"+ media.getPath());
                     }
                     DebugUtil.i(TAG, "onActivityResult:" + selectList.size());
+
+
+
                     break;
             }
         }

@@ -119,4 +119,10 @@ public class CameraActivity extends AppCompatActivity {
         super.onPause();
         jCameraView.onPause();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        jCameraView.onDestory();
+    }
 }

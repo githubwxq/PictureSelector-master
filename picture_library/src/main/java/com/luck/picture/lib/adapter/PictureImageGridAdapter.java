@@ -35,6 +35,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.luck.picture.lib.config.PictureConfig.TYPE_AUDIO;
+import static com.luck.picture.lib.config.PictureConfig.TYPE_VIDEO;
+
 /**
  * author：luck
  * project：PictureSelector
@@ -226,7 +229,7 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
                             || selectMode == PictureConfig.SINGLE)) {
                         int index = showCamera ? position - 1 : position;
                         imageSelectChangedListener.onPictureClick(image, index);
-                    } else if (picture == PictureConfig.TYPE_AUDIO && (enablePreviewAudio
+                    } else if (picture == TYPE_AUDIO && (enablePreviewAudio
                             || selectMode == PictureConfig.SINGLE)) {
                         int index = showCamera ? position - 1 : position;
                         imageSelectChangedListener.onPictureClick(image, index);
@@ -312,6 +315,19 @@ public class PictureImageGridAdapter extends RecyclerView.Adapter<RecyclerView.V
         boolean isChecked = contentHolder.check.isSelected();
         String pictureType = selectImages.size() > 0 ? selectImages.get(0).getPictureType() : "";
         if (!TextUtils.isEmpty(pictureType)) {
+
+             // 控制最多选一个视频 默认不加选择多个视频
+            if (PictureMimeType.isPictureType(image.getPictureType())==TYPE_VIDEO&&!isChecked) {
+                boolean toEqual = PictureMimeType.mimeToEqual(pictureType, image.getPictureType());
+                if (!toEqual) {
+                    Toast.makeText(context, context.getString(R.string.picture_rule), Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+                Toast.makeText(context, "最多选择一个视频", Toast.LENGTH_LONG).show();
+                return;
+
+            }
             boolean toEqual = PictureMimeType.mimeToEqual(pictureType, image.getPictureType());
             if (!toEqual) {
                 Toast.makeText(context, context.getString(R.string.picture_rule), Toast.LENGTH_LONG)

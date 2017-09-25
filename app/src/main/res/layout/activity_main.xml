@@ -55,7 +55,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:overScrollMode="never" />
-
+<com.luck.picture.lib.PictureSelectorView
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:id="@+id/pic_select_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"></com.luck.picture.lib.PictureSelectorView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

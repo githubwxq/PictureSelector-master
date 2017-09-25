@@ -528,4 +528,9 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         animSet.start();
         return true;
     }
+
+
+    public void onDestory(){
+        CameraInterface.getInstance().doDestroyCamera();
+    }
 }

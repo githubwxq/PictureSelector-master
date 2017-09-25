@@ -61,6 +61,8 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.luck.picture.lib.cameralibrary.JCameraView.TYPE_VIDEO;
+
 public class PictureSelectorActivity extends PictureBaseActivity implements View.OnClickListener,
         PictureAlbumDirectoryAdapter.OnItemClickListener,
         PictureImageGridAdapter.OnPhotoSelectChangedListener, PhotoPopupWindow.OnItemClickListener {
@@ -92,6 +94,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
     private int audioH;
     // 新加调用系统的拍照录视频还是调用微信的拍照和录视频
     public boolean isSystemCamera;
+
     //EventBus 3.0 回调
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventBus(EventEntity obj) {
@@ -113,6 +116,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     if (isCompress && pictureType.startsWith(PictureConfig.IMAGE)) {
                         compressImage(medias);
                     } else {
+                        RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
                         onResult(medias);
                     }
                 }
@@ -349,11 +353,22 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     break;
                 case PictureConfig.TYPE_IMAGE:
                     // 拍照
-                    startOpenCamera();
+                    if (!isSystemCamera) {
+                        Intent intent = new Intent(PictureSelectorActivity.this, CameraActivity.class);
+                        startActivityForResult(intent, PictureConfig.REQUEST_CAMERA);
+                    } else {
+                        startOpenCamera();
+                    }
+
                     break;
                 case PictureConfig.TYPE_VIDEO:
                     // 录视频
-                    startOpenCameraVideo();
+                    if (!isSystemCamera) {
+                        Intent intent = new Intent(PictureSelectorActivity.this, CameraActivity.class);
+                        startActivityForResult(intent, PictureConfig.REQUEST_CAMERA);
+                    } else {
+                        startOpenCameraVideo();
+                    }
                     break;
                 case PictureConfig.TYPE_AUDIO:
                     // 录音
@@ -1007,8 +1022,15 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     // 类型相同或还没有选中才加进选中集合中
                     if (toEqual || selectedImages.size() == 0) {
                         if (selectedImages.size() < maxSelectNum) {
-                            selectedImages.add(media);
-                            adapter.bindSelectImages(selectedImages);
+
+                            if (selectedImages.size() == 0) {
+                                selectedImages.add(media);
+                                adapter.bindSelectImages(selectedImages);
+                            }else{
+                                if(PictureMimeType.isPictureType(media.getPictureType())!=TYPE_VIDEO){
+                                    adapter.bindSelectImages(selectedImages);
+                                }
+                            }
                         }
                     }
                     adapter.notifyDataSetChanged();
